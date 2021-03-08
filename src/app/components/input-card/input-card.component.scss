@@ -1,0 +1,20 @@
+:host {
+  ul {
+    display:flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      margin: 20px;
+      cursor: pointer;
+    }
+    img {
+      height: 100px;
+    }
+
+  }
+  mat-form-field {
+    margin-left: 20px;
+  }
+}

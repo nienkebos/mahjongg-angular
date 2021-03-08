@@ -1,0 +1,22 @@
+<div *ngIf="inputCardStep === inputCardSteps.PICKTILETYPE">
+  <ul class="pick-tile-type">
+    <li *ngFor="let type of tileTypes" (click)="pickTileType(type.type)" matRipple>
+      <p>{{type.type}}</p>
+      <img src={{type.img}} title={{type.type}} >
+    </li>
+  </ul>
+</div>
+<div *ngIf="inputCardStep === inputCardSteps.PICKTILE">
+  <ul class="pick-tile">
+    <li *ngFor="let tile of tilesPerType" (click)="pickTile(tile)" matRipple>
+      <p>{{tile.number}}</p>
+      <img src={{tile.img}} title={{tile.type}}>
+    </li>
+  </ul>
+  <div *ngIf="pickMeld">
+    <mat-button-toggle-group [formControl]="meldType" name="meldType" aria-label="Meld Type">
+      <mat-button-toggle *ngFor="let meld of melds" [value]="meld.name">{{meld.name}}</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div><button mat-button color="primary" (click)="saveMeld()">Save</button></div>
+  </div>
+</div>

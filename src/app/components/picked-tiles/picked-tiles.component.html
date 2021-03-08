@@ -1,0 +1,10 @@
+<h4>{{mode}}</h4>
+<ul class="pick-tile-type">
+  <li *ngFor="let meld of meldsToShow">
+    <!-- <p>{{meld.meldType}} - {{meld.tileType}} - {{meld.tileNumber}}</p> -->
+    <div *ngFor="let fullMeld of meld.fullMeldImg">
+      <img src={{fullMeld}} title="{{meld.meldType}} {{meld.tileNumber}} {{meld.tileType}}">
+    </div>
+
+  </li>
+</ul>
