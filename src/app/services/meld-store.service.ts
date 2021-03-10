@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
-export interface Meld {
-  mode: string,
-  tileType: string,
-  tileNumber: number,
-  meldType: string,
-  img: string,
-  fullMeldImg: any[]
-}
+import { Meld } from '../data/types';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +18,6 @@ export class MeldStoreService {
   }
 
   addMeld(meld: Meld) {
-    console.log(this.melds)
     this.melds = [
       ...this.melds,
       meld

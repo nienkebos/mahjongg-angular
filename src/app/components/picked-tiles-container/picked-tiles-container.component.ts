@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { INPUT_MODES } from 'src/app/data/types';
 
 @Component({
   selector: 'app-picked-tiles-container',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./picked-tiles-container.component.scss']
 })
 export class PickedTilesContainerComponent implements OnInit {
-
+  inputModes = INPUT_MODES;
   constructor() { }
 
   ngOnInit() {

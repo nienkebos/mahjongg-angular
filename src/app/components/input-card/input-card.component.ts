@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TileTypes, INPUT_CARD_STEPS, Tiles, Tile, Melds } from '../../data/types';
-import { Meld, MeldStoreService } from '../../services/meld-store.service';
+import { TileTypes,INPUT_MODES, INPUT_CARD_STEPS, Tiles, Tile, Melds, Meld } from '../../data/types';
+import { MeldStoreService } from '../../services/meld-store.service';
 
 @Component({
   selector: 'app-input-card',
@@ -14,29 +14,43 @@ export class InputCardComponent implements OnInit {
   tiles = Tiles;
   tilesPerType;
   pickedTile = {} as Tile;
+  inputModes = INPUT_MODES;
   inputCardSteps = INPUT_CARD_STEPS;
   inputCardStep;
   pickMeld = false;
   melds = Melds;
   meld = {} as Meld;
   meldType = new FormControl();
+  fullMeldImg = [];
 
   constructor(private meldStoreService: MeldStoreService) { }
 
   ngOnInit() {
     this.inputCardStep = this.inputCardSteps.PICKTILETYPE;
+
+    if (this.mode === this.inputModes.BONUS ) {
+      this.tileTypes = TileTypes.filter(tileType => {
+        return tileType.set === this.inputModes.BONUS;
+      })
+    } else {
+      this.tileTypes = TileTypes.filter(tileType => {
+        return tileType.set !== this.inputModes.BONUS;
+      })
+    }
   }
 
   pickTileType(tileType: string) {
+    this.inputCardStep = this.inputCardSteps.PICKTILE;
+
+    this.tilesPerType = this.tiles.filter(tile => {
+      return tile.type === tileType
+    })
+
     this.meld = {
       ...this.meld,
       mode: this.mode,
       tileType: tileType
     }
-    this.inputCardStep = this.inputCardSteps.PICKTILE;
-    this.tilesPerType = this.tiles.filter(tile => {
-      return tile.type === tileType
-    })
   }
 
   pickTile(tile) {
@@ -46,35 +60,36 @@ export class InputCardComponent implements OnInit {
       tileNumber: tile.number,
       img: tile.img
     }
-
-    this.pickMeld = true;
   }
 
-  saveMeld() {
-    let fullMeldImg = [];
-
+  addFullMeldImgArray() {
     switch(this.meldType.value) {
       case "Chow": {
         const tileIndex = this.tiles.findIndex(x => this.pickedTile.id === x.id)
-        fullMeldImg = [ this.meld.img, this.tiles[tileIndex + 1 ].img, this.tiles[tileIndex + 2 ].img ]
-
+        this.fullMeldImg = [this.meld.img, this.tiles[tileIndex + 1 ].img, this.tiles[tileIndex + 2 ].img]
         break;
       }
       case "Pung": {
-        fullMeldImg = [this.meld.img, this.meld.img, this.meld.img]
+        this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img]
         break;
       }
       case "Kong": {
-        fullMeldImg = [this.meld.img, this.meld.img, this.meld.img, this.meld.img]
-
+        this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img, this.meld.img]
         break;
       }
+      default: {
+        this.fullMeldImg = [this.meld.img]
+      }
     }
+  }
+
+  saveMeld() {
+    this.addFullMeldImgArray();
 
     this.meld = {
       ...this.meld,
-      meldType: this.meldType.value,
-      fullMeldImg: fullMeldImg
+      meldType: this.meldType.value || 'Extra',
+      fullMeldImg: this.fullMeldImg
      }
 
     this.meldStoreService.addMeld(this.meld);

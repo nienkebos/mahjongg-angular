@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { INPUT_MODES } from 'src/app/data/types';
 
 @Component({
   selector: 'app-input-panel',
@@ -7,23 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InputPanelComponent implements OnInit {
   step = 0;
+  inputModes = INPUT_MODES;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   setStep(index:number) {
     this.step = index;
-
   }
 
   nextStep() {
-    this.step++
+    this.step++;
   }
 
   prevStep() {
-    this.step--
+    this.step--;
   }
 
 }

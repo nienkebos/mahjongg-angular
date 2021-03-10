@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Meld, MeldStoreService } from '../../services/meld-store.service';
-import { INPUT_CARDS } from '../../data/types';
+import { MeldStoreService } from '../../services/meld-store.service';
+import { INPUT_MODES, Meld } from '../../data/types';
 
 @Component({
   selector: 'app-picked-tiles',
@@ -8,10 +8,10 @@ import { INPUT_CARDS } from '../../data/types';
   styleUrls: ['./picked-tiles.component.scss']
 })
 export class PickedTilesComponent implements OnInit {
-  @Input() mode: string;
+  @Input() mode: INPUT_MODES;
   pickedMelds: Meld[];
   meldsToShow: Meld[];
-  modes: INPUT_CARDS;
+  modes: INPUT_MODES;
   constructor(private meldStoreService: MeldStoreService) { }
 
   ngOnInit() {
