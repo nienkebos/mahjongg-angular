@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TileTypes,INPUT_MODES, INPUT_CARD_STEPS, Tiles, Tile, Melds, Meld } from '../../data/types';
+import { INPUT_MODES, INPUT_CARD_STEPS, TileType, Tile, Meld } from '../../data/types';
+import { tileTypes, meldNames,  } from '../../data/data';
+
 import { MeldStoreService } from '../../services/meld-store.service';
+import { TileStoreService } from '../../services/tile-store.service';
 
 @Component({
   selector: 'app-input-card',
@@ -9,42 +12,38 @@ import { MeldStoreService } from '../../services/meld-store.service';
   styleUrls: ['./input-card.component.scss']
 })
 export class InputCardComponent implements OnInit {
-  @Input() mode: string;
-  tileTypes = TileTypes;
-  tiles = Tiles;
-  tilesPerType;
+  @Input() mode: string | undefined;
+  tileTypes: TileType[] = tileTypes;
+  tiles: Tile[];
+  tilesPerType: Tile[] = [];
   pickedTile = {} as Tile;
   inputModes = INPUT_MODES;
   inputCardSteps = INPUT_CARD_STEPS;
-  inputCardStep;
+  inputCardStep: number = 0;
   pickMeld = false;
-  melds = Melds;
+  melds = meldNames;
   meld = {} as Meld;
-  meldType = new FormControl();
-  fullMeldImg = [];
+  meldType: FormControl = new FormControl('');
+  fullMeldImg: string[] = [];
 
-  constructor(private meldStoreService: MeldStoreService) { }
+  constructor(private meldStoreService: MeldStoreService, private tileStoreService: TileStoreService) {
+    this.tiles = this.tileStoreService.getTiles;
+  }
 
   ngOnInit() {
     this.inputCardStep = this.inputCardSteps.PICKTILETYPE;
 
     if (this.mode === this.inputModes.BONUS ) {
-      this.tileTypes = TileTypes.filter(tileType => {
-        return tileType.set === this.inputModes.BONUS;
-      })
+      this.tileTypes = tileTypes.filter(tileType => tileType.set === this.inputModes.BONUS);
     } else {
-      this.tileTypes = TileTypes.filter(tileType => {
-        return tileType.set !== this.inputModes.BONUS;
-      })
+      this.tileTypes = tileTypes.filter(tileType => tileType.set !== this.inputModes.BONUS);
     }
   }
 
   pickTileType(tileType: string) {
     this.inputCardStep = this.inputCardSteps.PICKTILE;
 
-    this.tilesPerType = this.tiles.filter(tile => {
-      return tile.type === tileType
-    })
+    this.tilesPerType = this.tiles.filter(tile => tile.type === tileType);
 
     this.meld = {
       ...this.meld,
@@ -53,33 +52,33 @@ export class InputCardComponent implements OnInit {
     }
   }
 
-  pickTile(tile) {
+  pickTile(tile: Tile) {
     this.pickedTile = tile;
     this.meld = {
       ...this.meld,
-      tileNumber: tile.number,
+      tileNumber: tile.number || undefined,
       img: tile.img
     }
   }
 
   addFullMeldImgArray() {
     switch(this.meldType.value) {
-      case "Chow": {
+      case "Chow":
         const tileIndex = this.tiles.findIndex(x => this.pickedTile.id === x.id)
         this.fullMeldImg = [this.meld.img, this.tiles[tileIndex + 1 ].img, this.tiles[tileIndex + 2 ].img]
         break;
-      }
-      case "Pung": {
+
+      case "Pung":
         this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img]
         break;
-      }
-      case "Kong": {
+
+      case "Kong":
         this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img, this.meld.img]
         break;
-      }
-      default: {
+
+      default:
         this.fullMeldImg = [this.meld.img]
-      }
+
     }
   }
 
@@ -90,9 +89,16 @@ export class InputCardComponent implements OnInit {
       ...this.meld,
       meldType: this.meldType.value || 'Extra',
       fullMeldImg: this.fullMeldImg
-     }
+    }
 
     this.meldStoreService.addMeld(this.meld);
+    console.log(this.pickedTile)
+    this.tileStoreService.updateTileQuantity(this.pickedTile.id, this.meldType.value)
+
+    this.resetInputCard();
+  }
+
+  cancelMeld() {
     this.resetInputCard();
   }
 

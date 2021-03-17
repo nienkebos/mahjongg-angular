@@ -1,19 +1,19 @@
 <div *ngIf="inputCardStep === inputCardSteps.PICKTILETYPE">
-  <ul class="pick-tile-type">
-    <li *ngFor="let type of tileTypes" (click)="pickTileType(type.type)" matRipple>
+  <mat-button-toggle-group class="pick-tile-type">
+    <mat-button-toggle *ngFor="let type of tileTypes" (click)="pickTileType(type.type)" matRipple>
       <p>{{type.type}}</p>
       <img src={{type.img}} title={{type.type}} >
-    </li>
-  </ul>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
 </div>
 
 <div *ngIf="inputCardStep === inputCardSteps.PICKTILE && (mode === inputModes.EXPOSED || mode === inputModes.CONCEALED)">
-  <ul class="pick-tile">
-    <li *ngFor="let tile of tilesPerType" (click)="pickTile(tile)" matRipple>
+  <mat-button-toggle-group class="pick-tile">
+    <mat-button-toggle *ngFor="let tile of tilesPerType" (click)="pickTile(tile)" matRipple>
       <p>{{tile.number}}</p>
       <img src={{tile.img}} title={{tile.type}}>
-    </li>
-  </ul>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
   <div>
     <mat-button-toggle-group [formControl]="meldType" name="meldType" aria-label="Meld Type">
       <mat-button-toggle [value]="melds[0].name" [disabled]="tilesPerType[0].set ==='Honors'">{{melds[0].name}}</mat-button-toggle>
@@ -23,19 +23,21 @@
   </div>
 
   <div>
+    <button mat-button color="warn" (click)="cancelMeld()">Back</button>
     <button mat-button color="primary" (click)="saveMeld()">Save</button>
   </div>
 </div>
 
 
 <div *ngIf="inputCardStep === inputCardSteps.PICKTILE && mode === inputModes.BONUS">
-  <ul class="pick-tile">
-    <li *ngFor="let tile of tilesPerType" (click)="pickTile(tile)" matRipple>
+  <mat-button-toggle-group class="pick-tile">
+    <mat-button-toggle *ngFor="let tile of tilesPerType" (click)="pickTile(tile)" matRipple>
       <p>{{tile.number}}</p>
       <img src={{tile.img}} title={{tile.type}}>
-    </li>
-  </ul>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
   <div>
+    <button mat-button color="warn" (click)="cancelMeld()">Back</button>
     <button mat-button color="primary" (click)="saveMeld()">Save</button>
   </div>
 </div>

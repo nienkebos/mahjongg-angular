@@ -1,19 +1,14 @@
 :host {
-  ul {
-    display:flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding-left: 0;
-
-    li {
-      margin: 20px;
-      cursor: pointer;
+  mat-button-toggle-group {
+    margin: 10px 0;
+    mat-button-toggle {
+      img {
+        height: 100px;
+        margin-bottom: 10px;
+      }
     }
-    img {
-      height: 100px;
-    }
-
   }
+
   mat-form-field {
     margin-left: 20px;
   }

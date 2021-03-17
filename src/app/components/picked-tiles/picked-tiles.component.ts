@@ -8,10 +8,11 @@ import { INPUT_MODES, Meld } from '../../data/types';
   styleUrls: ['./picked-tiles.component.scss']
 })
 export class PickedTilesComponent implements OnInit {
-  @Input() mode: INPUT_MODES;
-  pickedMelds: Meld[];
-  meldsToShow: Meld[];
-  modes: INPUT_MODES;
+  @Input() mode: INPUT_MODES | undefined;
+  pickedMelds: Meld[] = [];
+  meldsToShow: Meld[] = [];
+  // modes!: INPUT_MODES;
+
   constructor(private meldStoreService: MeldStoreService) { }
 
   ngOnInit() {
@@ -21,11 +22,8 @@ export class PickedTilesComponent implements OnInit {
     });
 
   }
-  showMelds() {
-    this.meldsToShow = this.pickedMelds.filter(meld => {
-      console.log(meld)
-      return meld.mode === this.mode;
-    })
-  }
 
+  showMelds() {
+    this.meldsToShow = this.pickedMelds.filter(meld => meld.mode === this.mode);
+  }
 }
