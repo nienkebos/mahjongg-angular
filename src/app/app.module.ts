@@ -13,6 +13,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
+import { AppStoreModule } from './store/store.module';
+
 import { AppComponent } from './app.component';
 import { InputCardComponent } from './components/input-card/input-card.component';
 import { HomeComponent } from './components/home/home.component';
@@ -41,7 +43,8 @@ import { PickedTilesContainerComponent } from './components/picked-tiles-contain
     MatRippleModule,
     MatButtonToggleModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppStoreModule
   ],
   entryComponents: [],
   providers: [],

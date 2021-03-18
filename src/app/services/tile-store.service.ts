@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Tile } from '../data/types';
+import { Tile } from '../models';
 import { tiles } from '../data/data';
 
 @Injectable({
