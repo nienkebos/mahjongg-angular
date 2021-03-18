@@ -1,5 +1,6 @@
+import { Tile, TileType } from "../models"
 
-const tileTypes = [
+export const tileTypes: TileType[] = [
   {id: 1, set: 'Simples', type: 'Characters', img: '../../../assets/tiles/25.jpg'},
   {id: 2, set: 'Simples', type: 'Dots', img:'../../../assets/tiles/16.jpg'},
   {id: 3, set: 'Simples', type: 'Bamboo', img: '../../../assets/tiles/34.jpg'},
@@ -9,7 +10,7 @@ const tileTypes = [
   {id: 7, set: 'Bonus', type: 'Flowers', img: '../../../assets/tiles/5.jpg'}
 ]
 
-const tiles = [
+export const tiles: Tile[] = [
   {id:1, set: 'Bonus', type: 'Seasons', number: 1, img: '../../../assets/tiles/1.jpg', quantity: 1},
   {id:2, set: 'Bonus', type: 'Seasons', number: 2, img: '../../../assets/tiles/2.jpg', quantity: 1},
   {id:3, set: 'Bonus', type: 'Seasons', number: 3, img: '../../../assets/tiles/3.jpg', quantity: 1},
@@ -54,10 +55,9 @@ const tiles = [
   {id:42, set: 'Simples', type: 'Bamboo', number: 9, img: '../../../assets/tiles/42.jpg', quantity: 4},
 ]
 
-const meldNames = [
+export const meldNames = [
   {name: 'Chow'},
   {name: 'Pung'},
   {name:'Kong'},
 ]
 
-export { tileTypes, tiles, meldNames }

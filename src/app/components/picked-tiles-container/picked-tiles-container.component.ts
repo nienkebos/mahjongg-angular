@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { INPUT_MODES } from 'src/app/data/types';
+import { INPUT_MODES } from '../../models';
 
 @Component({
   selector: 'app-picked-tiles-container',

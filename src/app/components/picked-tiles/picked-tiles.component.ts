@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MeldStoreService } from '../../services/meld-store.service';
-import { INPUT_MODES, Meld } from '../../data/types';
+import { INPUT_MODES, Meld } from '../../models';
 
 @Component({
   selector: 'app-picked-tiles',

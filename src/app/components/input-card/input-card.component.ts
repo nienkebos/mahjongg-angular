@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { INPUT_MODES, INPUT_CARD_STEPS, TileType, Tile, Meld } from '../../data/types';
+import { INPUT_MODES, INPUT_CARD_STEPS, TileType, Tile, Meld } from '../../models';
 import { tileTypes, meldNames,  } from '../../data/data';
 
 import { MeldStoreService } from '../../services/meld-store.service';

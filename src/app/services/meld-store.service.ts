@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Meld } from '../data/types';
+import { Meld } from '../models';
 
 @Injectable({
   providedIn: 'root'
