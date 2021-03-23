@@ -16,8 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppStoreModule } from './store/store.module';
 
 import { AppComponent } from './app.component';
-import { InputCardComponent } from './components/input-card/input-card.component';
 import { HomeComponent } from './components/home/home.component';
+import { InputCardComponent } from './components/input-card/input-card.component';
 import { InputPanelComponent } from './components/input-panel/input-panel.component';
 import { PickedTilesComponent } from './components/picked-tiles/picked-tiles.component';
 import { PickedTilesContainerComponent } from './components/picked-tiles-container/picked-tiles-container.component';

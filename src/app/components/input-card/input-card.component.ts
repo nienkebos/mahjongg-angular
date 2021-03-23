@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { INPUT_MODES, INPUT_CARD_STEPS, TileType, Tile, Meld } from '../../models';
 import { tileTypes, meldNames,  } from '../../data/data';
@@ -13,26 +13,26 @@ import { TileStoreService } from '../../services/tile-store.service';
 })
 export class InputCardComponent implements OnInit {
   @Input() mode: string | undefined;
-  tileTypes: TileType[] = tileTypes;
-  tiles: Tile[];
-  tilesPerType: Tile[] = [];
-  pickedTile = {} as Tile;
+  @Input() tilestack: Tile[] | undefined;
+  @Output() emitMeld = new EventEmitter<Meld>();
+
   inputModes = INPUT_MODES;
   inputCardSteps = INPUT_CARD_STEPS;
   inputCardStep: number = 0;
+  tileTypes: TileType[] = tileTypes;
+  tilesPerType: Tile[] = [];
+  pickedTile = {} as Tile;
   pickMeld = false;
   melds = meldNames;
   meld = {} as Meld;
   meldType: FormControl = new FormControl('');
   fullMeldImg: string[] = [];
 
-  constructor(private meldStoreService: MeldStoreService, private tileStoreService: TileStoreService) {
-    this.tiles = this.tileStoreService.getTiles;
-  }
+  constructor(private meldStoreService: MeldStoreService) {}
 
   ngOnInit() {
     this.inputCardStep = this.inputCardSteps.PICKTILETYPE;
-
+    console.log(this.tilestack)
     if (this.mode === this.inputModes.BONUS ) {
       this.tileTypes = tileTypes.filter(tileType => tileType.set === this.inputModes.BONUS);
     } else {
@@ -42,8 +42,7 @@ export class InputCardComponent implements OnInit {
 
   pickTileType(tileType: string) {
     this.inputCardStep = this.inputCardSteps.PICKTILE;
-
-    this.tilesPerType = this.tiles.filter(tile => tile.type === tileType);
+    this.tilestack !== undefined ? this.tilesPerType = this.tilestack.filter(tile => tile.type === tileType): console.log('this.tilesPerType = undefined');
 
     this.meld = {
       ...this.meld,
@@ -62,23 +61,24 @@ export class InputCardComponent implements OnInit {
   }
 
   addFullMeldImgArray() {
-    switch(this.meldType.value) {
-      case "Chow":
-        const tileIndex = this.tiles.findIndex(x => this.pickedTile.id === x.id)
-        this.fullMeldImg = [this.meld.img, this.tiles[tileIndex + 1 ].img, this.tiles[tileIndex + 2 ].img]
-        break;
+    if(this.tilestack !== undefined) {
+      switch(this.meldType.value) {
+        case "Chow":
+          const tileIndex = this.tilestack.findIndex(x => this.pickedTile.id === x.id)
+          this.fullMeldImg = [this.meld.img, this.tilestack[tileIndex + 1 ].img, this.tilestack[tileIndex + 2 ].img]
+          break;
 
-      case "Pung":
-        this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img]
-        break;
+        case "Pung":
+          this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img]
+          break;
 
-      case "Kong":
-        this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img, this.meld.img]
-        break;
+        case "Kong":
+          this.fullMeldImg = [this.meld.img, this.meld.img, this.meld.img, this.meld.img]
+          break;
 
-      default:
-        this.fullMeldImg = [this.meld.img]
-
+        default:
+          this.fullMeldImg = [this.meld.img]
+      }
     }
   }
 
@@ -91,9 +91,11 @@ export class InputCardComponent implements OnInit {
       fullMeldImg: this.fullMeldImg
     }
 
-    this.meldStoreService.addMeld(this.meld);
-    console.log(this.pickedTile)
-    this.tileStoreService.updateTileQuantity(this.pickedTile.id, this.meldType.value)
+    this.emitMeld.emit(this.meld);
+
+  //   this.meldStoreService.addMeld(this.meld);
+  //   console.log(this.pickedTile)
+  //   this.tileStoreService.updateTileQuantity(this.pickedTile.id, this.meldType.value)
 
     this.resetInputCard();
   }

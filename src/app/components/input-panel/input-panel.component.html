@@ -9,7 +9,13 @@
         Pick the tiles that are on the table
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-input-card mode={{inputModes.EXPOSED}}></app-input-card>
+
+    <app-input-card
+      mode={{inputModes.EXPOSED}}
+      [tilestack]="tilestack$ | async"
+      (emitMeld)="onSaveMeld($event)"
+      ></app-input-card>
+
     <mat-action-row>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
@@ -24,7 +30,12 @@
         Pick the tiles you have in your hand
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-input-card mode={{inputModes.CONCEALED}}></app-input-card>
+
+    <app-input-card
+      mode={{inputModes.CONCEALED}}
+      [tilestack]="tilestack$ | async"
+      (emitMeld)="onSaveMeld($event)"
+      ></app-input-card>
 
     <mat-action-row>
       <button mat-button color="warn" (click)="prevStep()">Previous</button>
@@ -41,7 +52,12 @@
         Pick any flowers or seasons you have
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-input-card mode={{inputModes.BONUS}}></app-input-card>
+
+    <app-input-card
+      mode={{inputModes.BONUS}}
+      [tilestack]="tilestack$ | async"
+      (emitMeld)="onSaveMeld($event)"
+      ></app-input-card>
 
     <mat-action-row>
       <button mat-button color="warn" (click)="prevStep()">Previous</button>
