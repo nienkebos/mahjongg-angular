@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { AppState } from '../../store';
 import { selectTilestack } from '../../store/tilestack/tilestack.selectors';
-import { TilestackState } from '../../store/tilestack/tilestack.reducer';
 import { loadTiles, takeTiles, resetTilestack } from '../../store/tilestack/tilestack.actions';
 
 import { INPUT_MODES, Meld, Tile } from '../../models';
+import { TileStoreService } from 'src/app/services/tile-store.service';
 
 
 @Component({
@@ -21,14 +20,18 @@ export class InputPanelComponent implements OnInit {
   step = 0;
   inputModes = INPUT_MODES;
 
-  constructor(private store: Store<AppState>) {
-    this.tilestack$ = store.pipe(select(selectTilestack))
+  constructor(private store: Store<AppState>, private tileStoreService: TileStoreService) {
+    this.tilestack$ = this.store.pipe(select(selectTilestack))
   }
   ngOnInit() {}
 
-  onSaveMeld(meld: Meld) {
-    console.log(meld)
-  //TODO: Something with the meld, save it to the store
+  onSaveMeld(payload: any) {
+    //TODO: Update quantity of the tile(s)
+    let updatedTile = {} as Tile;
+    updatedTile = this.tileStoreService.updateTileQuantity(payload.tile, payload.meld)
+    //TODO: Dispatch updated tile(s) to the store
+    this.store.dispatch(takeTiles({tile: updatedTile}))
+    //TODO: Something with the meld, save it to the store
   }
 
   setStep(index:number) {

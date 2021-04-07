@@ -1,16 +1,11 @@
-import { Action, createAction, props } from '@ngrx/store';
-import { Tile } from 'src/app/models';
+import { createAction, props } from '@ngrx/store';
+import { TilePayload } from './tilestack.reducer';
 
-// Actiontypes that can be performed on the tilestack
-export enum TilestackActionTypes {
-  LoadTilestack = '[Tilestack] Load Tilestack',
-  TakeTiles = '[Tilestack] Take Tiles',
-  ResetTilestack = '[Tilestack] Reset Tilestack'
-}
-
-export const loadTiles = createAction(TilestackActionTypes.LoadTilestack, props<{tile: Tile}>());
-export const takeTiles = createAction(TilestackActionTypes.TakeTiles);
-export const resetTilestack = createAction(TilestackActionTypes.ResetTilestack);
+export const loadTiles = createAction('[Tilestack] Load Tilestack');
+export const takeTiles = createAction(
+  '[Tilestack] Take Tiles',
+  props<TilePayload>());
+export const resetTilestack = createAction('[Tilestack] Reset Tilestack');
 
 // export class LoadTilestack implements Action {
 //   readonly type = TilestackActionTypes.LoadTilestack;

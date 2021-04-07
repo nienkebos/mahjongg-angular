@@ -14,7 +14,7 @@ import { TileStoreService } from '../../services/tile-store.service';
 export class InputCardComponent implements OnInit {
   @Input() mode: string | undefined;
   @Input() tilestack: Tile[] | undefined;
-  @Output() emitMeld = new EventEmitter<Meld>();
+  @Output() emitMeld = new EventEmitter<any>();
 
   inputModes = INPUT_MODES;
   inputCardSteps = INPUT_CARD_STEPS;
@@ -90,8 +90,9 @@ export class InputCardComponent implements OnInit {
       meldType: this.meldType.value || 'Extra',
       fullMeldImg: this.fullMeldImg
     }
-
-    this.emitMeld.emit(this.meld);
+    console.log(this.pickedTile)
+    const payload = {tile: this.pickedTile, meld: this.meld}
+    this.emitMeld.emit(payload);
 
   //   this.meldStoreService.addMeld(this.meld);
   //   console.log(this.pickedTile)

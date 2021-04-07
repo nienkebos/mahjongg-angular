@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as TilestackActions from './tilestack.actions';
 import { tiles } from '../../data/data';
 import { Tile } from '../../models';
@@ -13,15 +13,23 @@ export const initialState: TilestackState = {
   tilestack: tiles
 }
 
+export interface TilePayload {
+  tile: Tile;
+}
+
 // 3. Build simple reducer
 export const tilestackReducer = createReducer(
   initialState,
-  on(TilestackActions.loadTiles, (state: any) => ({ ...state })),
-  on(TilestackActions.takeTiles, (state: any, tileId: any ) => (state.filter((id: any) => {
-    id !== tileId
-    // do something else than this
-    }))),
-  on(TilestackActions.resetTilestack, (state: any) => ({ ...state }))
+  on(TilestackActions.loadTiles, (state: TilestackState) => ({ ...state })),
+  on(TilestackActions.resetTilestack, () => ({ ...initialState })),
+  on(TilestackActions.takeTiles, (state: TilestackState, action: TilePayload) => {
+    const updatedTilestack = state.tilestack.map(t => {
+      return t.id === action.tile.id ? Object.assign({}, action.tile) : t;
+    })
+    return ({
+      tilestack: updatedTilestack
+    })
+  })
 )
 
 
