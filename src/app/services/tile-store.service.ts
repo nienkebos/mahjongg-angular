@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Meld, Tile } from '../models';
+import { tiles } from '../data/data';
 
 @Injectable({
   providedIn: 'root'
@@ -7,46 +8,51 @@ import { Meld, Tile } from '../models';
 export class TileStoreService {
   updateTileQuantity(tile: Tile, meld: Meld) {
     // take tile with id and update quantity based on meld
-    let updatedTile = tile;
+    let updatedTiles: Tile[] = [];
     if (tile) {
-      updatedTile = this.calculateNewQuantity(tile, meld);
+      updatedTiles = this.calculateNewQuantity(tile, meld);
     }
-    return updatedTile;
+    return updatedTiles;
   }
 
   calculateNewQuantity(tile: Tile, meld: Meld) {
+    const index = tiles.indexOf(tile);
     let tileWithNewQuantity = tile;
-    let newQuantity: number;
+    let updatedTiles: Tile[] = [];
+    // let newQuantity: number;
 
     switch(meld.meldType) {
       case "Chow":
         // TODO: Calculate new quantity for following two tiles
-        console.log(tileWithNewQuantity)
-        newQuantity = tile.quantity - 1;
-        tileWithNewQuantity = {
-          ...tileWithNewQuantity,
-          quantity: newQuantity
-        };
+        for(let i = index; i <= index + 2; i++) {
+          tileWithNewQuantity = {
+            ...tiles[i],
+            quantity: tiles[i].quantity - 1
+          }
+          updatedTiles = updatedTiles.concat(tileWithNewQuantity)
+        }
         break;
       case "Pung":
         // Update quantity of selectedTile only
-        newQuantity = tile.quantity - 3;
+        // newQuantity = tile.quantity - 3;
         tileWithNewQuantity = {
           ...tileWithNewQuantity,
-          quantity: newQuantity
+          quantity: tile.quantity - 3
         };
+        updatedTiles = updatedTiles.concat(tileWithNewQuantity)
         break;
       case "Kong":
         // Update quantity of selectedTile only
-        newQuantity = tile.quantity - 4;
+        // newQuantity = tile.quantity - 4;
         tileWithNewQuantity = {
           ...tileWithNewQuantity,
-          quantity: newQuantity
+          quantity: tile.quantity - 4
         };
+        updatedTiles = updatedTiles.concat(tileWithNewQuantity)
         break;
       default:
         break;
     }
-    return tileWithNewQuantity;
+    return updatedTiles;
   }
 }

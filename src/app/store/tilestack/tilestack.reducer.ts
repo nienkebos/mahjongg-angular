@@ -14,7 +14,7 @@ export const initialState: TilestackState = {
 }
 
 export interface TilePayload {
-  tile: Tile;
+  tiles: Tile[];
 }
 
 // 3. Build simple reducer
@@ -23,10 +23,15 @@ export const tilestackReducer = createReducer(
   on(TilestackActions.loadTiles, (state: TilestackState) => ({ ...state })),
   on(TilestackActions.resetTilestack, () => ({ ...initialState })),
   on(TilestackActions.takeTiles, (state: TilestackState, action: TilePayload) => {
-    const updatedTilestack = state.tilestack.map(t => {
-      return t.id === action.tile.id ? Object.assign({}, action.tile) : t;
-    })
+    let updatedTilestack: Tile[] = state.tilestack;
+    for (let index = 0; index < action.tiles.length; index++) {
+      let updatedTile = action.tiles[index];
+      updatedTilestack = updatedTilestack.map(tile => {
+        return tile.id === updatedTile.id ? Object.assign({}, updatedTile) : tile
+      })
+    }
     return ({
+      ...state,
       tilestack: updatedTilestack
     })
   })

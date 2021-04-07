@@ -90,7 +90,6 @@ export class InputCardComponent implements OnInit {
       meldType: this.meldType.value || 'Extra',
       fullMeldImg: this.fullMeldImg
     }
-    console.log(this.pickedTile)
     const payload = {tile: this.pickedTile, meld: this.meld}
     this.emitMeld.emit(payload);
 

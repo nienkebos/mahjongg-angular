@@ -27,10 +27,10 @@ export class InputPanelComponent implements OnInit {
 
   onSaveMeld(payload: any) {
     //TODO: Update quantity of the tile(s)
-    let updatedTile = {} as Tile;
-    updatedTile = this.tileStoreService.updateTileQuantity(payload.tile, payload.meld)
+    let updatedTiles: Tile[] = [];
+    updatedTiles = this.tileStoreService.updateTileQuantity(payload.tile, payload.meld)
     //TODO: Dispatch updated tile(s) to the store
-    this.store.dispatch(takeTiles({tile: updatedTile}))
+    this.store.dispatch(takeTiles({tiles: updatedTiles}))
     //TODO: Something with the meld, save it to the store
   }
 
